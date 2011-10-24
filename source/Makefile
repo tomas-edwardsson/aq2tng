@@ -97,9 +97,9 @@ PACKAGE="as-PG1.25"
 VERSION="1.52"
 
 # Uncomment this for debugging symbols and compiler warnings
-#DEBUG=1
+DEBUG=1
 
-ARCH=i386
+#ARCH=i386
 CC=gcc
 BASE_CFLAGS=-Dstricmp=strcasecmp -DC_ONLY
 
@@ -107,7 +107,7 @@ BASE_CFLAGS=-Dstricmp=strcasecmp -DC_ONLY
 ifdef DEBUG
 	CFLAGS=$(BASE_CFLAGS) -g -O2 -Wall
 else
-	CFLAGS=$(BASE_CFLAGS) -march=i586 -mcpu=i586 -O6 -ffast-math -funroll-loops \
+	CFLAGS=$(BASE_CFLAGS) -O2 -ffast-math -funroll-loops \
 		-fomit-frame-pointer -fexpensive-optimizations -falign-loops=2 \
 		-falign-jumps=2 -falign-functions=2
 endif
@@ -128,7 +128,7 @@ DO_CC=$(CC) $(CFLAGS) $(SHLIBCFLAGS) -o $@ -c $<
 	$(DO_CC)
 
 GAME_OBJS = \
-	a_ban.o a_cmds.o a_ctf.o a_doorkick.o a_game.o a_items.o a_match.o \
+	a_cmds.o a_ctf.o a_doorkick.o a_game.o a_items.o a_match.o \
 	a_menu.o a_radio.o a_team.o a_tourney.o a_vote.o a_xcmds.o a_xgame.o \
 	a_xmenu.o a_xvote.o cgf_sfx_glass.o g_ai.o g_chase.o g_cmds.o \
 	g_combat.o g_func.o g_items.o g_main.o g_misc.o g_monster.o \
@@ -137,7 +137,7 @@ GAME_OBJS = \
 	p_client.o p_hud.o p_trail.o p_view.o p_weapon.o q_shared.o \
 	tng_stats.o tng_flashlight.o tng_irc.o
 
-game$(ARCH).$(SHLIBEXT) : $(GAME_OBJS)
+game.$(SHLIBEXT) : $(GAME_OBJS)
 	$(CC) $(CFLAGS) $(SHLIBLDFLAGS) -o $@ $(GAME_OBJS)
 
 
@@ -146,7 +146,7 @@ game$(ARCH).$(SHLIBEXT) : $(GAME_OBJS)
 #############################################################################
 
 clean:
-	-rm -f $(GAME_OBJS) game$(ARCH).$(SHLIBEXT)
+	-rm -f $(GAME_OBJS) game.$(SHLIBEXT)
 
 olddepend:
 	gcc -MM $(GAME_OBJS:.o=.c)
@@ -158,7 +158,7 @@ install:
 	cp gamei386.so ../action/
 	strip ../action/gamei386.so
 
-bindist: game$(ARCH).$(SHLIBEXT)
+bindist: game.$(SHLIBEXT)
 	strip gamei386.so
 	tar -zchvf $(PACKAGE)-$(VERSION)-x86-linux.tar.gz \
 		gamei386.so README CHANGES maplist.ini
