@@ -1400,6 +1400,9 @@ typedef struct
   int stats_hits[100];                // Shots hit
   int stats_headshot[100];    // Shots in head
 
+  /* Movement tracking */
+  float distance_covered;	// How much has the player moved during the game
+
   //AQ2:TNG - Slicer: Video Checking and further Cheat cheking vars
   char vidref[16];
   char gldriver[16];

@@ -2001,6 +2001,11 @@ ClientCommand (edict_t * ent)
       return;
     }
 	//SLIC2
+	else if (Q_stricmp (cmd, "distance") == 0)
+    {
+	  gi.cprintf(ent,PRINT_HIGH,"Youhave travelled is: %.2f\n",ent->client->resp.distance_covered);
+      return;
+    }
   else if (Q_stricmp (cmd, "reload") == 0)
     {
       Cmd_New_Reload_f (ent);
